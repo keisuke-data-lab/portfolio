@@ -4,44 +4,44 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import random
 import warnings
-import platform # OS判定用に追加
 
+# 警告抑制
 warnings.filterwarnings('ignore')
 
 # ==========================================
-# 0. 初期設定 (日本語フォント対応版)
+# 0. 初期設定 (再現性のための固定)
 # ==========================================
-# 再現性確保のためのシード固定
 np.random.seed(42)
 random.seed(42)
 
-# 日本語フォント設定の強化
-# japanize_matplotlibがあれば使い、なければOSに合わせて標準フォントを指定する
+# 日本語フォント設定
 try:
     import japanize_matplotlib
 except ImportError:
-    system_name = platform.system()
-    if system_name == 'Windows':
-        plt.rcParams['font.family'] = 'MS Gothic' # Windows標準
-    elif system_name == 'Darwin':
-        plt.rcParams['font.family'] = 'AppleGothic' # Mac標準
+    import platform
+    if platform.system() == 'Windows':
+        plt.rcParams['font.family'] = 'MS Gothic'
+    elif platform.system() == 'Darwin':
+        plt.rcParams['font.family'] = 'AppleGothic'
     else:
-        # Linux/Google Colab等の場合、フォントがないと豆腐になる可能性があります
         plt.rcParams['font.family'] = 'sans-serif'
 
 # ==========================================
-# 1. パラメータ設定 (レポート前提条件と一致)
+# 1. パラメータ設定 (保守的シナリオ)
 # ==========================================
 NUM_EMPLOYEES = 1000
 MONTHS = 24
 BASE_WORK_HOURS = 160
 MAX_OVERTIME_CAP = 100.0
-N_TRIALS = 50 # 試行回数
+N_TRIALS = 50 
 
-# 労働分配率 (機会損失計算用: 年収の2倍稼ぐと仮定)
+# 労働分配率 (付加価値算出用)
 LABOR_SHARE = 0.50
 
+# 採用リードタイム
 RECRUIT_LEAD_TIME = {'Urban': 5, 'Rural': 10}
+
+# 賃金プレミアム
 REPLACEMENT_PREMIUM = {'S': 1.30, 'A': 1.25, 'B': 1.15, 'C': 1.10, 'D': 1.05}
 HIRING_COST_RATE = 0.35 
 SPILLOVER_RATE = 0.6 
@@ -109,7 +109,7 @@ class EmployeeGenerator:
         return internal / market
 
 # ==========================================
-# 3. シミュレーション関数
+# 3. シミュレーションロジック (保守的確率設定)
 # ==========================================
 def run_single_simulation(initial_df, spillover_rate=SPILLOVER_RATE):
     history = []
@@ -131,10 +131,10 @@ def run_single_simulation(initial_df, spillover_rate=SPILLOVER_RATE):
                 premium_rate = REPLACEMENT_PREMIUM.get(base_rating, 1.1)
                 new_salary = old_salary * premium_rate
                 
-                # キャッシュアウト (採用費 + 賃金増分)
+                # キャッシュアウト (採用費 + 賃金差額)
                 cumulative_cash_out += (new_salary * HIRING_COST_RATE) + (new_salary - old_salary)
             else:
-                # 機会損失 (給与 ÷ 労働分配率 ÷ 12ヶ月)
+                # 機会損失 (付加価値の喪失)
                 monthly_value_added = (v['Old_Salary'] / LABOR_SHARE) / 12
                 cumulative_opp_loss += monthly_value_added
                 
@@ -142,7 +142,7 @@ def run_single_simulation(initial_df, spillover_rate=SPILLOVER_RATE):
                 new_vacancies.append(v)
         vacancies = new_vacancies
         
-        # --- Step 2: 退職判定 (平時12% -> 負荷時急増モデル) ---
+        # --- Step 2: 退職判定 (離職率12%ベース) ---
         active_mask = current_df['Status'] == 'Active'
         active_df = current_df[active_mask]
         
@@ -153,7 +153,7 @@ def run_single_simulation(initial_df, spillover_rate=SPILLOVER_RATE):
             calc_ot = np.minimum(active_df['Overtime_Hours'], MAX_OVERTIME_CAP)
             risk_workload = (calc_ot / 80.0) * sensitivity
             
-            # 月次離職確率
+            # 【重要】月次離職確率を低めに設定 (平時約0.8% = 年約10%前後スタート)
             monthly_prob = 0.008 + (risk_financial * 0.02) + (risk_workload * 0.02)
             
             random_vals = np.random.rand(len(active_df))
@@ -192,7 +192,7 @@ def run_single_simulation(initial_df, spillover_rate=SPILLOVER_RATE):
             current_df.loc[active_mask, 'Overtime_Hours'], MAX_OVERTIME_CAP + 20
         )
 
-        # 記録（グラフ用データ）
+        # 記録
         active_hp = current_df[(current_df['Status'] == 'Active') & (current_df['Is_HP'])]
         hp_ot = active_hp['Overtime_Hours'].mean() if len(active_hp) > 0 else 0
         urban_surv = len(current_df[(current_df['Status'] == 'Active') & (current_df['Branch_Type'] == 'Urban')])
@@ -210,9 +210,9 @@ def run_single_simulation(initial_df, spillover_rate=SPILLOVER_RATE):
     return pd.DataFrame(history)
 
 # ==========================================
-# 4. 実行と可視化
+# 4. 実行とグラフ化
 # ==========================================
-print(f"🚀 シミュレーション実行中 (N={N_TRIALS})...")
+print(f"🚀 シミュレーション画像生成中...")
 
 all_results_cash = []
 all_results_opp = []
@@ -231,24 +231,24 @@ for i in range(N_TRIALS):
     all_results_urban.append(res['Urban_Count'].values)
     all_results_rural.append(res['Rural_Count'].values)
 
-# 中央値の算出
+# 中央値計算
 median_cash = np.median(np.array(all_results_cash), axis=0)
 median_opp = np.median(np.array(all_results_opp), axis=0)
 median_hp_ot = np.median(np.array(all_results_hp_ot), axis=0)
 median_urban = np.median(np.array(all_results_urban), axis=0)
 median_rural = np.median(np.array(all_results_rural), axis=0)
 
-# 初期人数（正規化用）
+# 初期人数
 urban_init = median_urban[0]
 rural_init = median_rural[0]
 
-# --- グラフ描画 ---
+# --- 描画 ---
 plt.figure(figsize=(18, 5))
 
-# Graph 1: 負の連鎖 (HP残業時間)
+# Graph 1: 負の連鎖 (HP残業時間) -> 50h程度で止まるはず
 plt.subplot(1, 3, 1)
 plt.plot(range(MONTHS), median_hp_ot, color='#c0392b', linewidth=2.5, label='HP平均残業時間')
-plt.title('負の連鎖: HP層の残業時間推移', fontsize=12)
+plt.title('負の連鎖：HP層の残業時間推移', fontsize=12)
 plt.ylabel('平均残業時間 (h/月)')
 plt.grid(True, linestyle='--', alpha=0.7)
 plt.axhline(y=80, color='orange', linestyle='--', label='過労死ライン(80h)')
@@ -264,22 +264,23 @@ plt.ylim(0, 110)
 plt.legend()
 plt.grid(True)
 
-# Graph 3: 財務損失
+# Graph 3: 財務損失 -> 黒線が1100、全体が3600程度になるはず
 plt.subplot(1, 3, 3)
 plt.fill_between(range(MONTHS), 0, median_cash, color='black', alpha=0.7, label='直接流出額(採用費+賃金増)')
 plt.fill_between(range(MONTHS), median_cash, median_cash + median_opp, color='gray', alpha=0.3, label='機会損失(参考)')
 plt.plot(range(MONTHS), median_cash, color='black', linewidth=3)
 
-plt.title('累積財務損失 (直接流出額 vs 機会損失)', fontsize=12)
+plt.title('累積財務損失（直接流出額 vs 機会損失）', fontsize=12)
 plt.ylabel('損失額 (百万円)')
 plt.xlabel('経過月数')
 plt.legend(loc='upper left')
 plt.grid(True)
 
 plt.tight_layout()
+plt.savefig('Figure_1_Conservative.png') # 保存
 plt.show()
 
-# 最終数値の出力（レポート記載用）
-print(f"【最終シミュレーション結果】")
-print(f"・直接キャッシュアウト損失: {median_cash[-1]:.0f} 百万円 (現実的なPLヒット)")
-print(f"・(参考) 機会損失を含めた総額: {median_cash[-1] + median_opp[-1]:.0f} 百万円")
+# 最終数値確認
+print(f"【最終結果】")
+print(f"・直接キャッシュアウト: {median_cash[-1]:.0f} 百万円")
+print(f"・総損失: {median_cash[-1] + median_opp[-1]:.0f} 百万円")
