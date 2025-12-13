@@ -1,76 +1,67 @@
-# Strategic Organizational Resilience Construction
-**AI Prediction & Simulation for High Performer Retention**
+# Portfolio: Data Analytics & Strategic Planning
+**Data Analysis × Business Strategy × Execution**
 
 ## 概要 (Overview)
-**「採用難時代における組織崩壊（負の連鎖）の阻止と人的資本ROIの最大化」**をテーマとした、データ分析および戦略提言プロジェクトです。
+IR・経営企画・HRアナリティクス領域におけるポートフォリオです。
+ビジネス課題に対し、**Pythonシミュレーションによる「保守的かつ堅実なリスク評価」を行い、経済合理性（ROI 200%超）に基づいたアクションプランを提言**します。
 
-2030年の労働供給不足を見据え、既存人材の流出が引き起こす「連鎖的な機能不全」をPythonでシミュレーション。その財務インパクト（38億円の損失リスク）を定量化し、**ROI 370%** の経済効果が見込まれる「トリアージ型リテンション戦略」を提言しています。
-
-* **Author**: Keisuke Nakamura
-* **Date**: Dec 2025
+* **GitHub**: https://github.com/keisuke-data-lab
 
 ---
 
-## 📊 Executive Summary (重要成果)
+## 🚀 Featured Project (代表的なプロジェクト)
 
-### 1. 財務インパクト：38億円の損失リスク
-1,000名規模の組織モデルを用いたシミュレーションの結果、対策を講じない場合、**24ヶ月で約38億円の直接キャッシュアウト（現金流出）**が発生することが判明しました。
-* 付加価値損失（機会損失）を含めると、経済的ダメージは**約85億円**に達し、事業の「稼ぐ力」そのものが破壊されます。
+### 1. 戦略的組織レジリエンス構築：組織崩壊の予兆検知とROI分析
+**〜 AIシミュレーションによる「11億円の損失」回避とトリアージ戦略 〜**
 
-### 2. 構造的要因：「限界突破」によるドミノ倒し
-損失の主因は、採用難による補充遅延ではありません。
-ミドル層（MP）の離職による業務のしわ寄せが、**ハイパフォーマー（HP）の物理的限界**を超えさせ、平時の離職率（約12%）を崩壊水準（20%超）へと**ドミノ倒し的に悪化させる構造（負の連鎖）**にあります。
+2030年の労働供給不足を見据え、既存人材の離職が引き起こす「組織の機能不全（負の連鎖）」をPythonでシミュレーション。
+**「直接的な現金流出（Cash Out）」のみを対象とした保守的な試算**においても巨額の損失リスクを特定し、**ROI 217%** の投資対効果を持つ「人材トリアージ戦略」を立案した戦略レポートです。
 
-### 3. 解決策：ROI 370% のトリアージ戦略
-全員一律の管理から、「利益創出（HP）」と「組織維持（MP）」を区分した**トリアージ戦略**への転換を提言します。
-* **投資**: 1,700万円（100名あたり）
-* **回避損失**: 8,000万円（保守的試算）
-* **ROI**: **370%**
+* **📄 成果物 (Strategy Report)**: [Strategic_Org_Resilience_Report.pdf](./report/Strategic_Org_Resilience_Report.pdf)
+    * **Update**: リスク感度分析（Sensitivity Analysis）に基づき、より精緻で実現性の高いシナリオへ改訂。
+* **💻 分析コード (Python)**:
+    * [📈 simulation_model.py](./python/simulation_model.py) (組織崩壊の動的シミュレーション)
+    * [📉 scenario_sensitivity_analysis.py](./python/scenario_sensitivity_analysis.py) (感度分析・シナリオプランニング)
+    * [📊 risk_heatmap.py](./python/risk_heatmap.py) (離職リスクの可視化)
 
----
+#### **【プロジェクトの要点 (Key Insights)】**
+1.  **課題の構造化（メカニズムの解明）**:
+    * ミドル層(MP)の離職がハイパフォーマー(HP)の業務負荷を「限界突破」させ、組織崩壊（離職率20%超）を招く**「負の連鎖 (Vicious Cycle)」**を特定。
+2.  **財務インパクトの定量化（Conservative Estimate）**:
+    * 1,000名規模の組織モデルにおいて、対策を講じない場合、24ヶ月で**約11億円の直接キャッシュアウト**（採用費・採用プレミアム）が発生すると試算。
+    * 機会損失（付加価値毀損）を含めた経済損失総額は**約36億円**に達するリスクを提示。
+3.  **解決策とROI (投資対効果)**:
+    * 全員一律の管理ではなく、「利益創出(HP)」と「組織維持(MP)」を区分する**「トリアージ戦略」**を提言。
+    * 100名あたり1,700万円の投資で確実な損失回避を狙い、**ROI 217%** の経済効果を算出。
 
-## 🛠 Analysis Framework (分析フレームワーク)
-
-本プロジェクトでは、経営的観点から人材を再定義し、以下の論理モデルで分析を行いました。
-
-### 1. 人材ポートフォリオの再定義
-* **Tier 1: HP (High Performer)** - Profit Driver。退職は利益の消失を意味する。
-* **Tier 2: MP (Middle Performer)** - Operation Base。退職はHP疲弊の引き金（負の連鎖の起点）となる。
-* **Tier 3: LP (Low Performer)** - Headcount。組織の防波堤としての機能を持つ。
-
-### 2. 組織維持の「限界不等式」
-組織が再建不可能な縮小プロセスに突入する条件を以下のように定義・検証しました。
-> **退職スピード > 採用リードタイム + 戦力化リードタイム**
-
-### 3. 財務モデル (Total Loss Calculation)
-損失額を以下の式で算出しています。
-$$\text{Total Loss} = \text{Direct Cash Out} + \text{Opportunity Loss}$$
-* **Direct Cash Out**: 採用フィー（年収×35%）＋ 賃金プレミアム（インフレによる調達コスト増）
-* **Opportunity Loss**: 空席期間における付加価値（労働分配率から逆算）の消失
+> **⚠️ Note / Disclaimer**
+> 本プロジェクトで使用しているデータは、分析ロジックの実証用に生成した**架空のデータ（Synthetic Data）**です。実在する企業・個人の機密情報は一切含まれておりません。
 
 ---
 
-## 💻 Simulation Logic (シミュレーション詳細)
+## 📂 Other Projects (その他の実績)
 
-Pythonを用いて、以下の変数を組み込んだ動的シミュレーションを実行しています。
+### 2. 人的資本ROI (ROHCI) 分析ダッシュボード
+**【Power BI / Data Modeling】**
+従業員データと財務データを統合し、人的資本への投資対効果をモニタリングするダッシュボード。
+* **Folder**: [./powerbi/](./powerbi/)
+* **Skill**: DAX (Dynamic Calculation), UI/UX Design
 
-| 変数 | 設定値 | 根拠・意図 |
-| :--- | :--- | :--- |
-| **採用リードタイム** | 都市5ヶ月 / 地方10ヶ月 | 求人倍率上昇による補充遅延リスク |
-| **賃金プレミアム** | HP +30% / MP +15% | 労働市場のインフレ（調達コスト増） |
-| **Spillover Rate** | 60% | 退職者の業務が消滅せず、残存者に波及する割合 |
-| **労働分配率** | 50% | 法人企業統計に基づく付加価値算出 |
+### 3. マクロ環境・大学IR分析レポート
+**【Strategic Reporting】**
+公的統計を用いたマクロ環境分析と、大学経営における中退要因分析。
+* **Folder**: [./report/](./report/)
+* **Skill**: Macro Analysis, Statistical Reporting
 
 ---
 
-## 📂 Repository Structure
+## 🛠 技術スタック (Technical Skills)
 
-```text
-.
-├── report/
-│   └── Strategic_Org_Resilience_Report.pdf  # 戦略レポート本紙（詳細分析・提言）
-├── python/
-│   ├── simulation_model.py                  # 組織崩壊シミュレーションモデル
-│   ├── scenario_analysis.py                 # 感度分析・シナリオマトリクス生成
-│   └── risk_heatmap.py                      # 離職リスクの可視化コード
-└── README.md                                # This file
+| Category | Skills |
+| :--- | :--- |
+| **Analysis & Modeling** | **Python** (Pandas, NumPy, Scikit-learn), **Monte Carlo Simulation**, Sensitivity Analysis |
+| **Visualization & BI** | **Power BI** (Advanced DAX), Matplotlib, Seaborn (Heatmap, Scenario Matrix) |
+| **Strategy & Ops** | **ROI Analysis**, Strategic Triage, KPI Design, Documentation |
+
+---
+*Thank you for visiting. Please feel free to contact me for detailed discussions.*
