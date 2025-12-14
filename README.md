@@ -26,8 +26,9 @@ GitHub: https://github.com/keisuke-data-lab
 
 2030年の労働供給不足を見据え、既存人材の離職が引き起こす「組織の機能不全」をシミュレーション。ROI 217% の投資対効果を持つ「人材トリアージ戦略」を立案。
 
-- **Status**: Preparing for upload (詳細資料は準備中)
+- **Tools**: Python (Monte Carlo Simulation, Matplotlib, Seaborn)
 - **Key Insight**: 離職の「負の連鎖」による経済損失を36億円と試算
+- **Repository**: [👉 Analysis Code & Simulation](https://github.com/keisuke-data-lab/strategic-org-resilience)
 
 ---
 
