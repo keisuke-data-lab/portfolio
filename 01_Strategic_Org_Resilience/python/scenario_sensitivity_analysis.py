@@ -78,7 +78,7 @@ def plot_leadtime_scenarios_v2():
     # 【追加】画像を保存
     plt.savefig('report/sensitivity_analysis.png')
     print("✅ sensitivity_analysis.png generated.")
-
+    
 # ==========================================
 # 実行
 # ==========================================
