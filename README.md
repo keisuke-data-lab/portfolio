@@ -35,9 +35,13 @@ GitHub: https://github.com/keisuke-data-lab
 ## 📂 Other Analytical Projects (その他の分析実績)
 
 ### 3. 学生中退予測と維持戦略 (Student Retention Analysis)
-**【University IR / Prediction】**
-学生データを用いた中退リスクの予測モデリングと、介入施策の提言。
-* **Folder**: [./03_Student_Retention_Analysis](./03_Student_Retention_Analysis)
+**「時間貧困」と中退リスクの因果構造を可視化**
+
+「個人の資質」に帰結されがちな中退要因を、「経済的困窮」と「時間貧困」の構造的問題として再定義。アルバイト時間が学業（GPA）に与える負のインパクトを定量化しました。
+
+- **Tools**: Python (Pandas, Seaborn), Causal Inference
+- **Key Visual**: 時間貧困の相関分析、リスクヒートマップ
+- **Repository**: [👉 **Analysis Code & Visualization**](https://github.com/keisuke-data-lab/student-retention-analysis)
 
 ### 4. 組織ジェンダーバイアス・シミュレーション (Gender Bias Simulation)
 **【DE&I / Org Dynamics】**
